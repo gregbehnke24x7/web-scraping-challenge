@@ -1,5 +1,5 @@
 # Import Dependencies
-import numpy as np
+#import numpy as np
 import pandas as pd
 import time as time
 from splinter import Browser
@@ -14,10 +14,10 @@ def init_browser():
 # function to scrape data
 def scrape():
 
-# ping first page with splinterfor a recent news article
+# ping first page with splinter for the most recent news article
     url = 'https://redplanetscience.com/'
     browser.visit(url)
-    time.sleep(2)
+    time.sleep(1)
     html = browser.html
     #browser.quit()
 
@@ -31,7 +31,7 @@ def scrape():
     #browser = Browser('chrome', **executable_path, headless=False)
     url = 'https://spaceimages-mars.com/'
     browser.visit(url)
-    time.sleep(2)
+    time.sleep(1)
     html = browser.html
     #browser.quit()
 
@@ -66,11 +66,11 @@ def scrape():
     fact_table_html = mars_df.to_html()
     #print(fact_table_html)
 
-# now lets get some pretty pictures of the hemoispheres of Mars with splinter
+# now lets get some pretty pictures of the hemispheres of Mars with splinter
     #browser = Browser('chrome', **executable_path, headless=False)
     url = 'https://marshemispheres.com/'
     browser.visit(url)
-    time.sleep(2)
+    time.sleep(1)
     html = browser.html
     #browser.quit()
     Data = BeautifulSoup(html, "html.parser")
@@ -106,7 +106,7 @@ def scrape():
         url = base_url + tail
         #print(f"{url}")
         browser.visit(url)
-        time.sleep(2)
+        time.sleep(1)
         html = browser.html
         Data = BeautifulSoup(html, "html.parser")
         image = Data.find_all(class_='wide-image')
@@ -123,7 +123,18 @@ def scrape():
     hemi_df.dropna(axis=0, inplace=True)
     #hemi_df
     hemisphere_image_urls = hemi_df.to_dict('records')
-    hemisphere_image_urls
+    #hemisphere_image_urls
+
+    mars_dict ={
+         'news_title'      : news_title,
+         'news_date'       : news_date,
+         'news_text'       : news_text,
+         'featured_image'  : featured_image_url,
+         'fact_table_html' : fact_table_html,
+         'mars_hemispheres': hemisphere_image_urls                    
+     }
+
+    return mars_dict
 
 
 
