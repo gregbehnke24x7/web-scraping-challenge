@@ -1,18 +1,20 @@
 # Import Dependencies
-#import numpy as np
-import pandas as pd
-import time as time
 from splinter import Browser
 from bs4 import BeautifulSoup
+import time as time
 from webdriver_manager.chrome import ChromeDriverManager
 
-# function to setup browser
 def init_browser():
-    executable_path = {'executable_path': ChromeDriverManager().install()}
-    browser = Browser('chrome', **executable_path, headless=False)
+    executable_path = {"executable_path": "/usr/local/bin/chromedriver"}
+    return Browser("chrome", **executable_path, headless=False)
 
 # function to scrape data
 def scrape():
+    
+    # setup browser
+    browser = init_browser()
+    #executable_path = {'executable_path': ChromeDriverManager().install()}
+    #browser = Browser('chrome', **executable_path, headless=False)
 
 # ping first page with splinter for the most recent news article
     url = 'https://redplanetscience.com/'
@@ -125,7 +127,7 @@ def scrape():
     hemisphere_image_urls = hemi_df.to_dict('records')
     #hemisphere_image_urls
 
-    mars_dict ={
+    mars_data = {
          'news_title'      : news_title,
          'news_date'       : news_date,
          'news_text'       : news_text,
@@ -134,7 +136,7 @@ def scrape():
          'mars_hemispheres': hemisphere_image_urls                    
      }
 
-    return mars_dict
+    return mars_data
 
 
 
