@@ -1,47 +1,43 @@
 # Import Dependencies
+import pandas as pd
 from splinter import Browser
 from bs4 import BeautifulSoup
 import time as time
 from webdriver_manager.chrome import ChromeDriverManager
 
-def init_browser():
-    executable_path = {"executable_path": "/usr/local/bin/chromedriver"}
-    return Browser("chrome", **executable_path, headless=False)
-
 # function to scrape data
 def scrape():
     
     # setup browser
-    browser = init_browser()
-    #executable_path = {'executable_path': ChromeDriverManager().install()}
-    #browser = Browser('chrome', **executable_path, headless=False)
+    executable_path = {'executable_path': ChromeDriverManager().install()}
+    browser = Browser('chrome', **executable_path, headless=False)
 
 # ping first page with splinter for the most recent news article
     url = 'https://redplanetscience.com/'
     browser.visit(url)
-    time.sleep(1)
+    time.sleep(2)
     html = browser.html
-    #browser.quit()
 
 # parse news html for datas
     Data = BeautifulSoup(html, "html.parser")
     news_date = Data.find('div',class_="list_date").text
     news_title = Data.find('div',class_="content_title").text
     news_text = Data.find('div',class_="article_teaser_body").text
+    #print(news_date)
+    #print(news_title)
+    #print(news_text)
 
 # ping next page with splinter for featured image
-    #browser = Browser('chrome', **executable_path, headless=False)
     url = 'https://spaceimages-mars.com/'
     browser.visit(url)
-    time.sleep(1)
+    time.sleep(2)
     html = browser.html
-    #browser.quit()
 
 # parse html for featured image
     Data = BeautifulSoup(html, "html.parser")
     images = Data.find_all('img')
-    featured_image_url =  url + images[1]['src']
-    #print(featured_image_url)
+    featured_image =  url + images[1]['src']
+    #print(image_url)
 
 # ping factoid page with pandas for some interesting facts
     url = 'https://galaxyfacts-mars.com'
@@ -69,10 +65,9 @@ def scrape():
     #print(fact_table_html)
 
 # now lets get some pretty pictures of the hemispheres of Mars with splinter
-    #browser = Browser('chrome', **executable_path, headless=False)
     url = 'https://marshemispheres.com/'
     browser.visit(url)
-    time.sleep(1)
+    time.sleep(2)
     html = browser.html
     #browser.quit()
     Data = BeautifulSoup(html, "html.parser")
@@ -96,10 +91,9 @@ def scrape():
     image_df = pd.DataFrame(image_urls)
     image_df.drop_duplicates(inplace=True)
     image_df.rename(columns={0: "tail"}, inplace=True)
-    image_df
+    #image_df
 
 # using the image url 'tail' and the base url, get each full image url
-    #browser = Browser('chrome', **executable_path, headless=False)
     base_url = 'https://marshemispheres.com/'
     hemi_image_urls = []
 
@@ -108,16 +102,17 @@ def scrape():
         url = base_url + tail
         #print(f"{url}")
         browser.visit(url)
-        time.sleep(1)
+        time.sleep(2)
         html = browser.html
         Data = BeautifulSoup(html, "html.parser")
-        image = Data.find_all(class_='wide-image')
-        hemi_image_url =  url + image[0]['src']
+        images = Data.find('img', class_='wide-image')
+        hemi_image_url = images.get('src')
+        hemi_image_url = base_url + hemi_image_url
         hemi_image_urls.append(hemi_image_url)
+        #print(hemi_image_url)
     
     browser.quit()
     hemi_image_df = pd.DataFrame(hemi_image_urls)
-    #hemi_image_df
 
     hemi_df = hemi_descr_df.copy()
     hemi_df[["img_url"]] = hemi_image_df[[0]]
@@ -128,15 +123,15 @@ def scrape():
     #hemisphere_image_urls
 
     mars_data = {
-         'news_title'      : news_title,
-         'news_date'       : news_date,
-         'news_text'       : news_text,
-         'featured_image'  : featured_image_url,
-         'fact_table_html' : fact_table_html,
-         'mars_hemispheres': hemisphere_image_urls                    
+         'news_title'         : news_title,
+         'news_date'          : news_date,
+         'news_text'          : news_text,
+         'featured_image'     : featured_image,
+         'fact_table_html'    : fact_table_html,
+         'mars_hemispheres'   : hemisphere_image_urls                    
      }
 
     return mars_data
 
-
+#print(scrape())
 

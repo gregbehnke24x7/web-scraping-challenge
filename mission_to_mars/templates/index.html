@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Information about Mars</title>
+    <link rel="stylesheet" type="text/css" media="screen" href="static/main.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="jumbotron text-center" style="background-color: orange;">
+            <h1 style="font-family: 'Times New Roman', Times, serif;"><strong>Mission to Mars</strong></h1>
+            <p style="font-family: 'Times New Roman', Times, serif;"><a class="btn btn-primary btn-lg" role="button" href="/scrape">Scrape New Data</a></p>
+        </div>
+        <div class="col-lg-12">
+            <h2><strong>Latest Mars News</strong></h2>
+            <a style="color:#0074D9;"><strong>{{mars_data.news_title}}</strong></h5></a>
+            <p style="font-size: 15px;">{{mars_data.news_text}}</h5> 
+            <p style="font-size:12px;"><strong>Published On:</strong>{{mars_data.news_date}}</p>   
+        </div>
+        <div class="row">
+            <div class="col-lg-8 Fimgsize">
+                <h2><strong>Featured Mars Image</strong></h2>
+                <a href={{mars_data.featured_image}} target="_blank">
+                    <img src={{mars_data.featured_image}} alt="Mars" style="width:900px;height:600px;">
+                </a>   
+            </div>
+            <div class="col-lg-4"> 
+                <div class="row">
+                    <h2 style="text-align: left"><strong>Facts About Mars</strong></h2>
+                    <div>  
+                        {{mars_data.fact_table_html | safe}}
+                    </div>
+                </div>
+            </div>
+        </div>  
+        <div class="container">
+            <div class="row" style="align-content:center;">
+                <h2 style="text-align: center;"><strong>Mars Hemispheres</strong></h2>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <h3 style="font-size: 15px;"><strong>{{mars_data.mars_hemispheres[0]['title']}}</strong></h3>
+                        <a href="{{mars_data.mars_hemispheres[0]['img_url']}}">
+                            <img src = "{{mars_data.mars_hemispheres[0]['img_url']}}" style="width:550px; height: 550px; padding:30px; border:1.5px; border-style: solid; border-color: gray">
+                        </a>
+                    </div>
+                    <div class="col-lg-6">
+                        <h3 style="font-size: 15px;"><strong>{{mars_data.mars_hemispheres[1]['title']}}</strong></h3>
+                        <a href="{{mars_data.mars_hemispheres[1]['img_url']}}">
+                            <img src = "{{mars_data.mars_hemispheres[1]['img_url']}}" style="width:550px; height: 550px; padding:30px; border:1.5px; border-style: solid; border-color: gray">
+                        </a>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <h3 style="font-size: 15px;"><strong>{{mars_data.mars_hemispheres[2]['title']}}</strong></h3>
+                        <a href="{{mars_data.mars_hemispheres[2]['img_url']}}">
+                            <img src = "{{mars_data.mars_hemispheres[2]['img_url']}}" style="width:550px; height: 550px; padding:30px; border:1.5px; border-style: solid; border-color: gray">
+                        </a>                       
+                    </div>
+                    <div class="col-lg-6">
+                        <h3 style="font-size: 15px;"><strong>{{mars_data.mars_hemispheres[3]['title']}}</strong></h3>
+                        <a href="{{mars_data.mars_hemispheres[3]['img_url']}}">
+                            <img src = "{{mars_data.mars_hemispheres[3]['img_url']}}" style="width:550px; height: 550px; padding:30px; border:1.5px; border-style: solid; border-color: gray">
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div> 
+    </div>
+    <br>
+</body>
+</html>
